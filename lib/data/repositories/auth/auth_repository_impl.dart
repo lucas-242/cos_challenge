@@ -25,4 +25,7 @@ class AuthRepositoryImpl implements AuthRepository {
     await _storageService.saveUser(user);
     return user;
   }
+
+  @override
+  Future<void> signOut() => _storageService.clearUser();
 }
