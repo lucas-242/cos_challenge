@@ -37,4 +37,9 @@ class AuthController {
 
     return false;
   }
+
+  void dispose() {
+    isLoading.dispose();
+    error.dispose();
+  }
 }

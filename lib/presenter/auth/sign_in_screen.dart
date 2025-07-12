@@ -32,7 +32,10 @@ class _SignInScreenState extends State<SignInScreen> {
     if (isLoggedIn && mounted) {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => HomeScreen()),
+        MaterialPageRoute(
+          builder: (context) =>
+              HomeScreen(authRepository: widget.authRepository),
+        ),
       );
     }
   }
@@ -50,7 +53,7 @@ class _SignInScreenState extends State<SignInScreen> {
 
   @override
   void dispose() {
-    _controller.error.removeListener(_listenError);
+    _controller.dispose();
     super.dispose();
   }
 
@@ -58,33 +61,33 @@ class _SignInScreenState extends State<SignInScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Sign In')),
-      body: ValueListenableBuilder<bool>(
-        valueListenable: _controller.isLoading,
-        builder: (context, isLoading, _) {
-          return Padding(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              spacing: 16,
-              children: [
-                TextField(
-                  controller: _emailController,
-                  decoration: const InputDecoration(labelText: 'Email'),
-                ),
-                TextField(
-                  controller: _passwordController,
-                  obscureText: true,
-                  decoration: const InputDecoration(labelText: 'Password'),
-                ),
-                ElevatedButton(
+      body: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          spacing: 16,
+          children: [
+            TextField(
+              controller: _emailController,
+              decoration: const InputDecoration(labelText: 'Email'),
+            ),
+            TextField(
+              controller: _passwordController,
+              obscureText: true,
+              decoration: const InputDecoration(labelText: 'Password'),
+            ),
+            ValueListenableBuilder<bool>(
+              valueListenable: _controller.isLoading,
+              builder: (context, isLoading, _) {
+                return ElevatedButton(
                   onPressed: _onSignIn,
                   child: isLoading
                       ? const CircularProgressIndicator()
                       : const Text('Sign in'),
-                ),
-              ],
+                );
+              },
             ),
-          );
-        },
+          ],
+        ),
       ),
     );
   }
