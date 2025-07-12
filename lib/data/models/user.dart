@@ -7,7 +7,16 @@ class User {
   const User.signIn({required String email, required String password})
     : this._('', email, password);
 
+  factory User.fromJson(Map<String, dynamic> json) =>
+      User.view(name: json['name'], email: json['email']);
+
   final String name;
   final String email;
   final String password;
+
+  Map<String, dynamic> toJson() => {
+    'name': name,
+    'email': email,
+    'password': password,
+  };
 }

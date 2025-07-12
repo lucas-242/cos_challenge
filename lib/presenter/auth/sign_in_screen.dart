@@ -1,8 +1,12 @@
-import 'package:cos_challenge/presenter/controllers/auth_controller.dart';
+import 'package:cos_challenge/data/repositories/auth/auth_repository.dart';
+import 'package:cos_challenge/presenter/auth/auth_controller.dart';
+import 'package:cos_challenge/presenter/home/home_screen.dart';
 import 'package:flutter/material.dart';
 
 class SignInScreen extends StatefulWidget {
-  const SignInScreen({super.key});
+  const SignInScreen({super.key, required this.authRepository});
+
+  final AuthRepository authRepository;
 
   @override
   State<SignInScreen> createState() => _SignInScreenState();
@@ -11,12 +15,26 @@ class SignInScreen extends StatefulWidget {
 class _SignInScreenState extends State<SignInScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-  late final _controller = AuthController();
+  late final _controller = AuthController(
+    authRepository: widget.authRepository,
+  );
 
   @override
   void initState() {
     super.initState();
+    _autoLogin();
     _listenError();
+  }
+
+  void _autoLogin() => _controller.autoLogin().then(_navigateToHome);
+
+  void _navigateToHome(bool isLoggedIn) {
+    if (isLoggedIn && mounted) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => HomeScreen()),
+      );
+    }
   }
 
   void _listenError() {
@@ -28,6 +46,12 @@ class _SignInScreenState extends State<SignInScreen> {
         context,
       ).showSnackBar(SnackBar(content: Text(error)));
     });
+  }
+
+  @override
+  void dispose() {
+    _controller.error.removeListener(_listenError);
+    super.dispose();
   }
 
   @override
@@ -51,15 +75,12 @@ class _SignInScreenState extends State<SignInScreen> {
                   obscureText: true,
                   decoration: const InputDecoration(labelText: 'Password'),
                 ),
-                isLoading
-                    ? const CircularProgressIndicator()
-                    : ElevatedButton(
-                        onPressed: () => _controller.signIn(
-                          _emailController.text,
-                          _passwordController.text,
-                        ),
-                        child: const Text('Sign in'),
-                      ),
+                ElevatedButton(
+                  onPressed: _onSignIn,
+                  child: isLoading
+                      ? const CircularProgressIndicator()
+                      : const Text('Sign in'),
+                ),
               ],
             ),
           );
@@ -67,4 +88,8 @@ class _SignInScreenState extends State<SignInScreen> {
       ),
     );
   }
+
+  void _onSignIn() => _controller
+      .signIn(_emailController.text, _passwordController.text)
+      .then(_navigateToHome);
 }
