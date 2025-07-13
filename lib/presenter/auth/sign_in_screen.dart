@@ -1,6 +1,9 @@
 import 'package:cos_challenge/data/repositories/auth/auth_repository.dart';
+import 'package:cos_challenge/data/repositories/vehicle/vehicle_repository_impl.dart';
 import 'package:cos_challenge/presenter/auth/auth_controller.dart';
+import 'package:cos_challenge/presenter/home/home_controller.dart';
 import 'package:cos_challenge/presenter/home/home_screen.dart';
+import 'package:cos_challenge/shared/utils/cos_challenge.dart';
 import 'package:flutter/material.dart';
 
 class SignInScreen extends StatefulWidget {
@@ -30,11 +33,16 @@ class _SignInScreenState extends State<SignInScreen> {
 
   void _navigateToHome(bool isLoggedIn) {
     if (isLoggedIn && mounted) {
+      final homeController = HomeController(
+        VehicleRepositoryImpl(CosChallenge.httpClient),
+        widget.authRepository,
+        CosChallenge.vinLength,
+      );
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
           builder: (context) =>
-              HomeScreen(authRepository: widget.authRepository),
+              HomeScreen(authRepository: widget.authRepository, controller: homeController),
         ),
       );
     }

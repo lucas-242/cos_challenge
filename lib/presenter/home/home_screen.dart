@@ -1,6 +1,5 @@
 import 'package:cos_challenge/data/models/suggestion_model.dart';
 import 'package:cos_challenge/data/repositories/auth/auth_repository.dart';
-import 'package:cos_challenge/data/repositories/vehicle/vehicle_repository_impl.dart';
 import 'package:cos_challenge/presenter/auth/sign_in_screen.dart';
 import 'package:cos_challenge/presenter/home/components/suggestions_list.dart';
 import 'package:cos_challenge/presenter/home/home_controller.dart';
@@ -9,27 +8,25 @@ import 'package:cos_challenge/shared/utils/cos_challenge.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key, required this.authRepository});
+  const HomeScreen({
+    super.key,
+    required this.authRepository,
+    required this.controller,
+  });
   final AuthRepository authRepository;
+  final HomeController controller;
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  late final HomeController _controller;
+  late final HomeController _controller = widget.controller;
   late final _vinController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-
-    _controller = HomeController(
-      VehicleRepositoryImpl(CosChallenge.httpClient),
-      widget.authRepository,
-      CosChallenge.vinLength,
-    );
-
     _listenVehicle();
   }
 
