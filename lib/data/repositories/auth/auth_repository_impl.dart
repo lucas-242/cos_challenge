@@ -20,7 +20,7 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<User> signIn(String email, String password) async {
-    final user = User.signIn(email: email, password: password);
+    final user = User.view(email: email);
 
     await _storageService.saveUser(user);
     return user;

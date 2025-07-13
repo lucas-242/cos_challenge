@@ -12,11 +12,10 @@ import 'flutter_secure_storage_service_impl_test.mocks.dart';
 
 @GenerateMocks([FlutterSecureStorage])
 void main() {
-  TestWidgetsFlutterBinding.ensureInitialized();
-  late MockFlutterSecureStorage mockFlutterSecureStorage;
-  late FlutterSecureStorageServiceImpl service;
+  late final MockFlutterSecureStorage mockFlutterSecureStorage;
+  late final FlutterSecureStorageServiceImpl service;
 
-  setUp(() {
+  setUpAll(() {
     mockFlutterSecureStorage = MockFlutterSecureStorage();
     service = FlutterSecureStorageServiceImpl(mockFlutterSecureStorage);
   });
