@@ -6,7 +6,8 @@ import 'package:cos_challenge/data/models/user.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class FlutterSecureStorageServiceImpl implements StorageService {
-  final _storage = const FlutterSecureStorage();
+  FlutterSecureStorageServiceImpl(this._storage);
+  final FlutterSecureStorage _storage;
 
   @override
   Future<void> saveUser(User user) async {
