@@ -7,9 +7,14 @@ import 'package:cos_challenge/shared/utils/cos_challenge.dart';
 import 'package:flutter/material.dart';
 
 class SignInScreen extends StatefulWidget {
-  const SignInScreen({super.key, required this.authRepository});
+  const SignInScreen({
+    super.key,
+    required this.authRepository,
+    required this.controller,
+  });
 
   final AuthRepository authRepository;
+  final AuthController controller;
 
   @override
   State<SignInScreen> createState() => _SignInScreenState();
@@ -18,9 +23,7 @@ class SignInScreen extends StatefulWidget {
 class _SignInScreenState extends State<SignInScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-  late final _controller = AuthController(
-    authRepository: widget.authRepository,
-  );
+  late final _controller = widget.controller;
 
   @override
   void initState() {
@@ -41,8 +44,10 @@ class _SignInScreenState extends State<SignInScreen> {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) =>
-              HomeScreen(authRepository: widget.authRepository, controller: homeController),
+          builder: (context) => HomeScreen(
+            authRepository: widget.authRepository,
+            controller: homeController,
+          ),
         ),
       );
     }
