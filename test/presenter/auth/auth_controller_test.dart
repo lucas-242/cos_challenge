@@ -10,10 +10,10 @@ import 'auth_controller_test.mocks.dart';
 
 @GenerateMocks([AuthRepository])
 void main() {
-  late final AuthController controller;
-  late final MockAuthRepository mockAuthRepository;
+  late AuthController controller;
+  late MockAuthRepository mockAuthRepository;
 
-  setUpAll(() {
+  setUp(() {
     mockAuthRepository = MockAuthRepository();
     controller = AuthController(authRepository: mockAuthRepository);
   });

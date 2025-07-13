@@ -27,6 +27,7 @@ class _HomeScreenState extends State<HomeScreen> {
     _controller = HomeController(
       VehicleRepositoryImpl(CosChallenge.httpClient),
       widget.authRepository,
+      CosChallenge.vinLength,
     );
 
     _listenVehicle();

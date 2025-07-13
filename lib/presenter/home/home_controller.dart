@@ -3,14 +3,14 @@ import 'package:cos_challenge/data/models/vehicle_model.dart';
 import 'package:cos_challenge/data/repositories/auth/auth_repository.dart';
 import 'package:cos_challenge/data/repositories/vehicle/vehicle_repository.dart';
 import 'package:cos_challenge/data/repositories/vehicle/vehicle_response.dart';
-import 'package:cos_challenge/shared/utils/cos_challenge.dart';
 import 'package:flutter/material.dart';
 
 class HomeController {
-  HomeController(this._repository, this._authRepository);
+  HomeController(this._repository, this._authRepository, this._vinLength);
 
   final AuthRepository _authRepository;
   final VehicleRepository _repository;
+  final int _vinLength;
 
   final ValueNotifier<bool> isLoading = ValueNotifier(false);
   final ValueNotifier<VehicleModel?> vehicle = ValueNotifier(null);
@@ -19,9 +19,8 @@ class HomeController {
 
   Future<void> searchByVin(String searchText) async {
     final vin = searchText.trim();
-    if (vin.isEmpty || vin.length != CosChallenge.vinLength) {
-      error.value =
-          'VIN needs to have exactly ${CosChallenge.vinLength} characters';
+    if (vin.isEmpty || vin.length != _vinLength) {
+      error.value = 'VIN needs to have exactly $_vinLength characters';
       return;
     }
 
@@ -57,7 +56,7 @@ class HomeController {
   }
 
   Future<void> getVehicleFromSuggestion() {
-    final vin = List.filled(CosChallenge.vinLength, 'A').join();
+    final vin = List.filled(_vinLength, 'A').join();
     return _searchVehicle(vin);
   }
 
