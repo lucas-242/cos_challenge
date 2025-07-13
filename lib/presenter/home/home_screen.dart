@@ -1,7 +1,7 @@
 import 'package:cos_challenge/data/models/suggestion_model.dart';
 import 'package:cos_challenge/data/repositories/auth/auth_repository.dart';
-import 'package:cos_challenge/presenter/auth/sign_in_screen.dart';
 import 'package:cos_challenge/presenter/auth/auth_controller.dart';
+import 'package:cos_challenge/presenter/auth/sign_in_screen.dart';
 import 'package:cos_challenge/presenter/home/components/suggestions_list.dart';
 import 'package:cos_challenge/presenter/home/home_controller.dart';
 import 'package:cos_challenge/presenter/home/vehicle_details_screen.dart';
@@ -115,7 +115,10 @@ class _HomeScreenState extends State<HomeScreen> {
     _controller.signOut();
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(
-        builder: (_) => SignInScreen(authRepository: widget.authRepository, controller: AuthController(authRepository: widget.authRepository)),
+        builder: (_) => SignInScreen(
+          authRepository: widget.authRepository,
+          controller: AuthController(authRepository: widget.authRepository),
+        ),
       ),
     );
   }
