@@ -32,7 +32,7 @@ class HomeController {
     error.value = null;
 
     try {
-      final result = await _repository.fetchByVin(vin);
+      final result = await _repository.fetchByVin(vin, 'someUserId');
 
       switch (result) {
         case VehicleSuccess():

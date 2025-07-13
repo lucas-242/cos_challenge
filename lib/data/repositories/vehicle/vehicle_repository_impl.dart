@@ -5,6 +5,7 @@ import 'package:cos_challenge/data/models/suggestion_model.dart';
 import 'package:cos_challenge/data/models/vehicle_model.dart';
 import 'package:cos_challenge/data/repositories/vehicle/vehicle_repository.dart';
 import 'package:cos_challenge/data/repositories/vehicle/vehicle_response.dart';
+import 'package:cos_challenge/shared/utils/cos_challenge.dart';
 import 'package:http/http.dart' as http;
 
 class VehicleRepositoryImpl implements VehicleRepository {
@@ -13,8 +14,11 @@ class VehicleRepositoryImpl implements VehicleRepository {
   final http.Client _httpClient;
 
   @override
-  Future<VehicleResponse> fetchByVin(String vin) async {
-    final response = await _httpClient.get(Uri.https('anyUrl'));
+  Future<VehicleResponse> fetchByVin(String vin, String userId) async {
+    final response = await _httpClient.get(
+      Uri.https('anyUrl'),
+      headers: {CosChallenge.user: userId},
+    );
 
     switch (response.statusCode) {
       case 200:

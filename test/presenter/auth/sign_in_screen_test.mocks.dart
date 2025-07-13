@@ -226,13 +226,13 @@ class MockVehicleRepository extends _i1.Mock implements _i10.VehicleRepository {
   }
 
   @override
-  _i5.Future<_i11.VehicleResponse> fetchByVin(String? vin) =>
+  _i5.Future<_i11.VehicleResponse> fetchByVin(String? vin, String? userId) =>
       (super.noSuchMethod(
-            Invocation.method(#fetchByVin, [vin]),
+            Invocation.method(#fetchByVin, [vin, userId]),
             returnValue: _i5.Future<_i11.VehicleResponse>.value(
               _i12.dummyValue<_i11.VehicleResponse>(
                 this,
-                Invocation.method(#fetchByVin, [vin]),
+                Invocation.method(#fetchByVin, [vin, userId]),
               ),
             ),
           )

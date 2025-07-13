@@ -24,6 +24,7 @@ void main() {
 
   group('fetchByVin', () {
     const vin = 'vin';
+    const userId = 'testUserId';
 
     test('should return VehicleSuccess on 200 status code', () async {
       final vehicleJson = {
@@ -36,7 +37,7 @@ void main() {
         mockHttpClient.get(any, headers: anyNamed('headers')),
       ).thenAnswer((_) async => http.Response(json.encode(vehicleJson), 200));
 
-      final result = await repository.fetchByVin(vin);
+      final result = await repository.fetchByVin(vin, userId);
 
       expect(result, isA<VehicleSuccess>());
       expect(
@@ -54,7 +55,7 @@ void main() {
         (_) async => http.Response(json.encode(suggestionsJson), 300),
       );
 
-      final result = await repository.fetchByVin(vin);
+      final result = await repository.fetchByVin(vin, userId);
 
       expect(result, isA<VehicleSuggestions>());
       expect((result as VehicleSuggestions).suggestions.length, 2);
@@ -70,7 +71,7 @@ void main() {
         mockHttpClient.get(any, headers: anyNamed('headers')),
       ).thenAnswer((_) async => http.Response(json.encode(errorJson), 400));
 
-      final result = await repository.fetchByVin(vin);
+      final result = await repository.fetchByVin(vin, userId);
 
       expect(result, isA<VehicleFailure>());
       expect((result as VehicleFailure).error, ApiError.fromJson(errorJson));
@@ -83,7 +84,7 @@ void main() {
 
       final call = repository.fetchByVin;
 
-      expect(() => call(vin), throwsA(isA<Exception>()));
+      expect(() => call(vin, userId), throwsA(isA<Exception>()));
     });
   });
 }

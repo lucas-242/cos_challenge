@@ -43,7 +43,7 @@ void main() {
       'should set vehicle and clear suggestions on VehicleSuccess',
       () async {
         when(
-          mockVehicleRepository.fetchByVin(any),
+          mockVehicleRepository.fetchByVin(any, any),
         ).thenAnswer((_) async => VehicleSuccess(_vehicleMock));
 
         await controller.searchByVin('A' * 17);
@@ -71,7 +71,7 @@ void main() {
         externalId: 'id2',
       );
       when(
-        mockVehicleRepository.fetchByVin(any),
+        mockVehicleRepository.fetchByVin(any, any),
       ).thenAnswer((_) async => VehicleSuggestions([suggestion1, suggestion2]));
 
       await controller.searchByVin('A' * 17);
@@ -89,7 +89,7 @@ void main() {
         params: {},
       );
       when(
-        mockVehicleRepository.fetchByVin(any),
+        mockVehicleRepository.fetchByVin(any, any),
       ).thenAnswer((_) async => VehicleFailure(apiError));
 
       await controller.searchByVin('A' * 17);
@@ -102,7 +102,7 @@ void main() {
 
     test('should set error on unexpected exception', () async {
       when(
-        mockVehicleRepository.fetchByVin(any),
+        mockVehicleRepository.fetchByVin(any, any),
       ).thenThrow(Exception('Unexpected error'));
 
       await controller.searchByVin('A' * 17);
@@ -120,12 +120,12 @@ void main() {
   group('getVehicleFromSuggestion', () {
     test('should call _searchVehicle with default VIN', () async {
       when(
-        mockVehicleRepository.fetchByVin(any),
+        mockVehicleRepository.fetchByVin(any, any),
       ).thenAnswer((_) async => VehicleSuccess(_vehicleMock));
 
       await controller.getVehicleFromSuggestion();
 
-      verify(mockVehicleRepository.fetchByVin('A' * 17)).called(1);
+      verify(mockVehicleRepository.fetchByVin('A' * 17, any)).called(1);
       expect(controller.vehicle.value, _vehicleMock);
     });
   });
